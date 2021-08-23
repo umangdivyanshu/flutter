@@ -81,11 +81,13 @@ Future<void> integrationDriver({
 
   await driver.close();
 
+  //sending response callback(integration_response_data) irrespective of pass or fail status
+  if (responseDataCallback != null) {
+    await responseDataCallback(response.data);
+  }
+
   if (response.allTestsPassed) {
     print('All tests passed.');
-    if (responseDataCallback != null) {
-      await responseDataCallback(response.data);
-    }
     exit(0);
   } else {
     print('Failure Details:\n${response.formattedFailureDetails}');
